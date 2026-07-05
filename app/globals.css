@@ -1,0 +1,161 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+
+@theme {
+  --color-void: #0a0d14;
+  --color-surface: #12151f;
+  --color-surface-2: #191d2a;
+  --color-surface-3: #232838;
+  --color-border: #2a3042;
+  --color-violet: #7c5cfc;
+  --color-violet-dim: #5b3ff0;
+  --color-cyan: #22d3ee;
+  --color-mint: #34d399;
+  --color-flame: #fb7185;
+  --color-ink: #e8eaf0;
+  --color-muted: #8b93a7;
+  --color-muted-2: #5b6478;
+
+  --font-display: "Orbitron", "Rajdhani", sans-serif;
+  --font-heading: "Rajdhani", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --shadow-glow-violet: 0 0 0 1px rgba(124, 92, 252, 0.25), 0 8px 30px -8px rgba(124, 92, 252, 0.55);
+  --shadow-glow-cyan: 0 0 0 1px rgba(34, 211, 238, 0.25), 0 8px 30px -8px rgba(34, 211, 238, 0.5);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: var(--color-violet);
+  color: white;
+}
+
+/* Slim gaming-styled scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-3);
+  border-radius: 999px;
+  border: 2px solid var(--color-void);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-violet-dim);
+}
+
+/* Signature clipped-corner panel used across game cards / CTAs */
+.clip-panel {
+  clip-path: polygon(
+    16px 0,
+    100% 0,
+    100% calc(100% - 16px),
+    calc(100% - 16px) 100%,
+    0 100%,
+    0 16px
+  );
+}
+
+.clip-panel-sm {
+  clip-path: polygon(
+    10px 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%,
+    0 10px
+  );
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--color-violet) 0%, var(--color-cyan) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(124, 92, 252, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 92, 252, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out both;
+}
+
+@keyframes scan {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-scan {
+  animation: scan 2.4s linear infinite;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

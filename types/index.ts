@@ -43,6 +43,7 @@ export interface CartContextType {
   totalItems: number;
   totalPrice: number;
   isInCart: (gameId: string) => boolean;
+  isHydrated: boolean;
 }
 
 export interface Coupon {

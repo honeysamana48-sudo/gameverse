@@ -1,189 +1,118 @@
+"use client";
+
+import ScrollReveal from "@/components/ScrollReveal";
+import { motion } from "framer-motion";
+
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-[#0b0f19] text-white">
-
+    <main className="min-h-screen bg-[var(--color-void)] text-[var(--color-ink)]">
       {/* HERO */}
-      <section className="relative overflow-hidden border-b border-cyan-500/20">
-
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-transparent to-blue-500/10" />
+      <section className="relative overflow-hidden border-b border-[var(--color-border)]">
+        <div className="absolute inset-0 bg-grid opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-cyan)]/5 via-transparent to-[var(--color-violet)]/5" />
+        <div className="absolute left-1/4 top-1/2 h-48 w-48 -translate-y-1/2 rounded-full bg-[var(--color-cyan)]/10 blur-[100px]" />
 
         <div className="relative max-w-6xl mx-auto px-6 py-24 text-center">
-
-          <span className="inline-block bg-cyan-500/20 text-cyan-400 px-5 py-2 rounded-full text-sm font-semibold border border-cyan-500/30">
-            🎮 GameVerse Support
-          </span>
-
-          <h1 className="text-5xl md:text-7xl font-extrabold mt-8">
-            Contact
-            <span className="text-cyan-400"> GameVerse</span>
-          </h1>
-
-          <p className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto mt-6 leading-8">
-            Need help with your order, payment, or game activation?
-            Our support team is ready to assist you quickly and make sure
-            your gaming experience is smooth.
-          </p>
-
+          <ScrollReveal>
+            <span className="inline-block rounded-full border border-[var(--color-cyan)]/30 bg-[var(--color-cyan)]/10 px-5 py-2 font-heading text-sm font-semibold text-[var(--color-cyan)]">
+              🎮 GameVerse Support
+            </span>
+            <h1 className="mt-8 font-display text-5xl font-bold md:text-6xl">
+              Contact <span className="text-gradient">GameVerse</span>
+            </h1>
+            <p className="mt-6 max-w-3xl mx-auto text-lg text-[var(--color-muted)] leading-relaxed">
+              Need help with your order, payment, or game activation?
+              Our support team is ready to assist you quickly.
+            </p>
+          </ScrollReveal>
         </div>
-
       </section>
 
-      {/* CONTACT SECTION */}
-
+      {/* CONTACT CARDS */}
       <section className="max-w-6xl mx-auto px-6 py-20">
-
         <div className="grid lg:grid-cols-3 gap-8">
-
-          {/* WhatsApp */}
-
-          <div className="bg-slate-900 border border-cyan-500/20 rounded-3xl p-8 hover:border-green-400 hover:-translate-y-2 transition duration-300">
-
-            <div className="text-5xl">💬</div>
-
-            <h2 className="text-2xl font-bold mt-6">
-              WhatsApp Support
-            </h2>
-
-            <p className="text-gray-400 mt-4 leading-7">
-              Chat directly with our support team for instant assistance.
-            </p>
-
-            <p className="text-cyan-400 font-bold text-xl mt-8">
-              +91 87258 41263
-            </p>
-
-            <a
-              href="https://wa.me/918725841263"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mt-8 bg-green-500 hover:bg-green-400 text-black px-6 py-3 rounded-xl font-bold transition"
-            >
-              Chat Now →
-            </a>
-
-          </div>
-
-          {/* EMAIL */}
-
-          <div className="bg-slate-900 border border-cyan-500/20 rounded-3xl p-8 hover:border-cyan-400 hover:-translate-y-2 transition duration-300">
-
-            <div className="text-5xl">📧</div>
-
-            <h2 className="text-2xl font-bold mt-6">
-              Email Support
-            </h2>
-
-            <p className="text-gray-400 mt-4 leading-7">
-              Send us your questions anytime. We normally reply within a few
-              hours.
-            </p>
-
-            <p className="text-cyan-400 font-bold mt-8 break-all">
-              gameverse0333@gmail.com
-            </p>
-
-            <a
-              href="mailto:gameverse0333@gmail.com"
-              className="inline-block mt-8 bg-cyan-500 hover:bg-cyan-400 text-black px-6 py-3 rounded-xl font-bold transition"
-            >
-              Send Email →
-            </a>
-
-          </div>
-
-          {/* INSTAGRAM */}
-
-          <div className="bg-slate-900 border border-cyan-500/20 rounded-3xl p-8 hover:border-pink-500 hover:-translate-y-2 transition duration-300">
-
-            <div className="text-5xl">📷</div>
-
-            <h2 className="text-2xl font-bold mt-6">
-              Instagram
-            </h2>
-
-            <p className="text-gray-400 mt-4 leading-7">
-              Follow GameVerse for game launches, exclusive offers,
-              giveaways, and gaming news.
-            </p>
-
-            <p className="font-bold text-pink-400 mt-8">
-              @gameverse0333
-            </p>
-
-            <a
-              href="https://www.instagram.com/gameverse0333?igsh=MWpnY3E1MDlxeXhubA=="
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mt-8 bg-gradient-to-r from-pink-500 via-purple-500 to-orange-500 px-6 py-3 rounded-xl font-bold text-white hover:scale-105 transition"
-            >
-              Follow on Instagram →
-            </a>
-
-          </div>
-
+          {[
+            {
+              emoji: "💬",
+              title: "WhatsApp Support",
+              desc: "Chat directly with our support team for instant assistance.",
+              value: "+91 87258 41263",
+              valueColor: "text-[var(--color-cyan)]",
+              cta: "Chat Now →",
+              ctaBg: "bg-[var(--color-mint)] hover:bg-[var(--color-mint)]/90 text-[var(--color-void)]",
+              href: "https://wa.me/918725841263",
+              hoverBorder: "hover:border-[var(--color-mint)]",
+            },
+            {
+              emoji: "📧",
+              title: "Email Support",
+              desc: "Send us your questions anytime. We normally reply within a few hours.",
+              value: "gameverse0333@gmail.com",
+              valueColor: "text-[var(--color-cyan)]",
+              cta: "Send Email →",
+              ctaBg: "bg-[var(--color-cyan)] hover:bg-[var(--color-cyan)]/90 text-[var(--color-void)]",
+              href: "mailto:gameverse0333@gmail.com",
+              hoverBorder: "hover:border-[var(--color-cyan)]",
+            },
+            {
+              emoji: "📷",
+              title: "Instagram",
+              desc: "Follow GameVerse for game launches, exclusive offers, and gaming news.",
+              value: "@gameverse333",
+              valueColor: "text-[var(--color-flame)]",
+              cta: "Follow on Instagram →",
+              ctaBg: "bg-gradient-to-r from-[var(--color-flame)] via-purple-500 to-orange-500 text-white",
+              href: "https://www.instagram.com/gameverse333",
+              hoverBorder: "hover:border-[var(--color-flame)]",
+            },
+              ].map((card, index) => (
+            <ScrollReveal key={card.title} delay={index * 0.1}>
+              <motion.div
+                whileHover={{ y: -6, scale: 1.02 }}
+                className={`rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 transition-all duration-300 ${card.hoverBorder} hover:shadow-lg hover:shadow-black/20`}
+              >
+                <div className="text-5xl">{card.emoji}</div>
+                <h2 className="text-2xl font-bold mt-6 font-heading">{card.title}</h2>
+                <p className="text-[var(--color-muted)] mt-4 leading-relaxed">{card.desc}</p>
+                <p className={`font-bold text-lg mt-8 ${card.valueColor}`}>{card.value}</p>
+                <a
+                  href={card.href}
+                  target={card.href.startsWith("mailto:") ? undefined : "_blank"}
+                  rel={card.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                  className={`clip-panel-sm inline-block mt-8 px-6 py-3 font-heading font-bold transition-all duration-300 hover:scale-105 ${card.ctaBg}`}
+                >
+                  {card.cta}
+                </a>
+              </motion.div>
+            </ScrollReveal>
+          ))}
         </div>
-
       </section>
 
       {/* WHY CHOOSE US */}
-
       <section className="max-w-6xl mx-auto px-6 pb-20">
-
-        <div className="bg-slate-900 rounded-3xl border border-cyan-500/20 p-10">
-
-          <h2 className="text-4xl font-bold text-center">
-            Why Choose
-            <span className="text-cyan-400"> GameVerse?</span>
-          </h2>
-
-          <div className="grid md:grid-cols-4 gap-8 mt-12">
-
-            <div className="text-center">
-              <div className="text-5xl">⚡</div>
-              <h3 className="font-bold text-xl mt-4">
-                Instant Delivery
-              </h3>
-              <p className="text-gray-400 mt-3">
-                Fast game delivery after payment verification.
-              </p>
+        <ScrollReveal>
+          <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-10 shadow-lg shadow-black/20">
+            <h2 className="text-4xl font-bold text-center font-display">
+              Why Choose <span className="text-gradient">GameVerse?</span>
+            </h2>
+            <div className="grid md:grid-cols-4 gap-8 mt-12">
+              {[
+                { emoji: "⚡", title: "Instant Delivery", desc: "Fast game delivery after payment verification." },
+                { emoji: "🔒", title: "Secure Payments", desc: "Safe UPI payments with trusted support." },
+                { emoji: "🎮", title: "Premium Games", desc: "Steam, Rockstar, EA, Ubisoft and many more." },
+                { emoji: "⭐", title: "Trusted Support", desc: "Friendly customer service whenever you need help." },
+              ].map((f) => (
+                <div key={f.title} className="text-center">
+                  <div className="text-5xl">{f.emoji}</div>
+                  <h3 className="font-bold text-xl mt-4 font-heading">{f.title}</h3>
+                  <p className="text-[var(--color-muted)] mt-3">{f.desc}</p>
+                </div>
+              ))}
             </div>
-
-            <div className="text-center">
-              <div className="text-5xl">🔒</div>
-              <h3 className="font-bold text-xl mt-4">
-                Secure Payments
-              </h3>
-              <p className="text-gray-400 mt-3">
-                Safe UPI payments with trusted support.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="text-5xl">🎮</div>
-              <h3 className="font-bold text-xl mt-4">
-                Premium Games
-              </h3>
-              <p className="text-gray-400 mt-3">
-                Steam, Rockstar, EA, Ubisoft and many more.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="text-5xl">⭐</div>
-              <h3 className="font-bold text-xl mt-4">
-                Trusted Support
-              </h3>
-              <p className="text-gray-400 mt-3">
-                Friendly customer service whenever you need help.
-              </p>
-            </div>
-
           </div>
-
-        </div>
-
+        </ScrollReveal>
       </section>
-
     </main>
   );
 }

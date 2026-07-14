@@ -115,6 +115,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       totalItems,
       totalPrice,
       isInCart,
+      isHydrated,
     }),
     [
       items,
@@ -126,6 +127,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       totalItems,
       totalPrice,
       isInCart,
+      isHydrated,
     ]
   );
 

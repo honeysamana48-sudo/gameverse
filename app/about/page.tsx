@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function AboutPage() {
   return (
@@ -6,83 +7,87 @@ export default function AboutPage() {
       {/* Header */}
       <div className="border-b border-[var(--color-border)] bg-[var(--color-surface)]">
         <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
-          <Link href="/" className="inline-flex items-center gap-2 text-xl font-bold text-[var(--color-cyan)]">
+          <Link href="/" className="inline-flex items-center gap-2 font-heading text-sm font-bold text-[var(--color-cyan)] transition-colors hover:text-[var(--color-violet)]">
             ← Back to Store
           </Link>
         </div>
       </div>
 
       {/* Content */}
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
-        <h1 className="mb-8 text-4xl font-bold">About GameVerse</h1>
+      <div className="relative mx-auto max-w-4xl px-4 py-12 sm:px-6">
+        <div className="absolute right-0 top-20 h-64 w-64 rounded-full bg-[var(--color-violet)]/5 blur-[100px]" />
+
+        <ScrollReveal>
+          <h1 className="mb-8 font-display text-4xl font-bold">About GameVerse</h1>
+        </ScrollReveal>
 
         <div className="space-y-8">
-          <section>
-            <h2 className="mb-4 text-2xl font-bold text-[var(--color-cyan)]">Our Mission</h2>
-            <p className="text-lg leading-relaxed text-[var(--color-muted)]">
-              GameVerse is dedicated to providing instant digital game delivery with unbeatable prices. We believe every gamer should have instant access to their favorite games without delays or complications.
-            </p>
-          </section>
+          {[
+            {
+              title: "Our Mission",
+              content: "GameVerse is dedicated to providing instant digital game delivery with unbeatable prices. We believe every gamer should have instant access to their favorite games without delays or complications.",
+            },
+            {
+              title: "Why Choose Us?",
+              items: [
+                "Instant game delivery via WhatsApp",
+                "Unbeatable prices and frequent deals",
+                "Secure UPI payments with QR code",
+                "Trusted by thousands of players",
+                "24/7 customer support",
+              ],
+            },
+            {
+              title: "How It Works",
+              steps: [
+                "Browse our collection of games",
+                "Add games to your cart",
+                "Complete payment via UPI QR code",
+                "Receive game keys instantly on WhatsApp",
+              ],
+            },
+          ].map((section, i) => (
+            <ScrollReveal key={section.title} delay={i * 0.1}>
+              <section>
+                <h2 className="mb-4 text-2xl font-bold text-[var(--color-cyan)] font-heading">{section.title}</h2>
+                {section.content && (
+                  <p className="text-lg leading-relaxed text-[var(--color-muted)]">{section.content}</p>
+                )}
+                {section.items && (
+                  <ul className="space-y-3 text-[var(--color-muted)]">
+                    {section.items.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span className="text-[var(--color-cyan)]">✓</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {section.steps && (
+                  <ol className="space-y-3 text-[var(--color-muted)]">
+                    {section.steps.map((step, idx) => (
+                      <li key={step} className="flex gap-3">
+                        <span className="font-bold text-[var(--color-cyan)]">{idx + 1}.</span>
+                        <span>{step}</span>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+              </section>
+            </ScrollReveal>
+          ))}
 
-          <section>
-            <h2 className="mb-4 text-2xl font-bold text-[var(--color-cyan)]">Why Choose Us?</h2>
-            <ul className="space-y-3 text-[var(--color-muted)]">
-              <li className="flex gap-3">
-                <span className="text-[var(--color-cyan)]">✓</span>
-                <span>Instant game delivery via WhatsApp</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-[var(--color-cyan)]">✓</span>
-                <span>Unbeatable prices and frequent deals</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-[var(--color-cyan)]">✓</span>
-                <span>Secure UPI payments with QR code</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-[var(--color-cyan)]">✓</span>
-                <span>Trusted by thousands of players</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-[var(--color-cyan)]">✓</span>
-                <span>24/7 customer support</span>
-              </li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="mb-4 text-2xl font-bold text-[var(--color-cyan)]">How It Works</h2>
-            <ol className="space-y-3 text-[var(--color-muted)]">
-              <li className="flex gap-3">
-                <span className="font-bold text-[var(--color-cyan)]">1.</span>
-                <span>Browse our collection of games</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="font-bold text-[var(--color-cyan)]">2.</span>
-                <span>Add games to your cart</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="font-bold text-[var(--color-cyan)]">3.</span>
-                <span>Complete payment via UPI QR code</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="font-bold text-[var(--color-cyan)]">4.</span>
-                <span>Receive game keys instantly on WhatsApp</span>
-              </li>
-            </ol>
-          </section>
-
-          <section>
-            <h2 className="mb-4 text-2xl font-bold text-[var(--color-cyan)]">Contact Us</h2>
-            <p className="text-[var(--color-muted)]">
-              Have questions? Reach out to us anytime. We're here to help!
-            </p>
-            <div className="mt-4 flex gap-4">
-              <Link href="/#contact" className="rounded bg-[var(--color-cyan)] px-4 py-2 font-medium text-[var(--color-void)] transition-opacity hover:opacity-90">
-                Contact Form
-              </Link>
-            </div>
-          </section>
+          <ScrollReveal delay={0.3}>
+            <section>
+              <h2 className="mb-4 text-2xl font-bold text-[var(--color-cyan)] font-heading">Contact Us</h2>
+              <p className="text-[var(--color-muted)]">Have questions? Reach out to us anytime. We&apos;re here to help!</p>
+              <div className="mt-4">
+                <Link href="/contact" className="clip-panel-sm inline-flex items-center justify-center bg-[var(--color-violet)] px-6 py-2.5 font-heading text-sm font-bold text-white shadow-[var(--shadow-glow-violet)] transition-all hover:scale-105">
+                  Contact Form
+                </Link>
+              </div>
+            </section>
+          </ScrollReveal>
         </div>
       </div>
     </div>

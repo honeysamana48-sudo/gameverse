@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const FOOTER_LINKS: { title: string; links: { label: string; href: string }[] }[] = [
   {
@@ -20,7 +23,7 @@ const FOOTER_LINKS: { title: string; links: { label: string; href: string }[] }[
   {
     title: "Company",
     links: [
-      { label: "About GameVerse", href: "about" },
+      { label: "About GameVerse", href: "/about" },
       { label: "Terms of Service", href: "/terms" },
       { label: "Privacy Policy", href: "/privacy" },
     ],
@@ -29,16 +32,18 @@ const FOOTER_LINKS: { title: string; links: { label: string; href: string }[] }[
 
 export default function Footer() {
   return (
-    <footer id="contact" className="border-t border-[var(--color-border)] bg-[var(--color-surface)]">
+    <footer id="contact" className="relative border-t border-[var(--color-border)] bg-[var(--color-surface)]">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-violet)]/30 to-transparent" />
+
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-md bg-gradient-to-br from-[var(--color-violet)] to-[var(--color-cyan)] font-display text-base font-bold text-[var(--color-void)]">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--color-violet)] to-[var(--color-cyan)] font-display text-base font-bold text-white">
                 G
               </span>
               <span className="font-display text-lg font-bold tracking-wide">
-                GAME<span className="text-gradient">VERSE</span>
+                GAME<span className="text-gradient-static">VERSE</span>
               </span>
             </div>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-[var(--color-muted)]">
@@ -49,7 +54,8 @@ export default function Footer() {
               {["twitter", "discord", "youtube"].map((platform) => (
                 <span
                   key={platform}
-                  className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--color-border)] text-[var(--color-muted)] transition-colors hover:border-[var(--color-violet)] hover:text-[var(--color-cyan)]"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-2)] text-[var(--color-muted)] transition-colors hover:border-[var(--color-violet)]/50 hover:text-[var(--color-cyan)] hover:shadow-[0_0_12px_rgba(124,92,252,0.15)]"
+                  aria-hidden="true"
                 >
                   <SocialIcon name={platform} />
                 </span>
@@ -59,14 +65,14 @@ export default function Footer() {
 
           {FOOTER_LINKS.map((section) => (
             <div key={section.title}>
-              <h3 className="font-heading text-sm font-semibold uppercase tracking-wider text-[var(--color-ink)]">
+              <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-[var(--color-ink)]">
                 {section.title}
               </h3>
               <ul className="mt-4 space-y-3">
                 {section.links.map((link) => {
                   const isHashLink = link.href.includes("#");
                   const className =
-                    "text-sm text-[var(--color-muted)] transition-colors hover:text-[var(--color-cyan)]";
+                    "text-sm text-[var(--color-muted)] transition-colors duration-300 hover:text-[var(--color-cyan)]";
                   return (
                     <li key={link.label}>
                       {isHashLink ? (
@@ -86,13 +92,16 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-[var(--color-border)] pt-6 sm:flex-row">
-          <p className="text-xs text-[var(--color-muted-2)]">
-            © {new Date().getFullYear()} GameVerse. All rights reserved.
-          </p>
-          <p className="text-xs text-[var(--color-muted-2)]">
-            Secure payments via QR • Instant delivery via WhatsApp
-          </p>
+        <div className="mt-10 border-t border-[var(--color-border)] pt-6">
+          <div className="h-px bg-gradient-to-r from-transparent via-[var(--color-violet)]/20 to-transparent mb-6" />
+          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+            <p className="text-xs text-[var(--color-muted-2)]">
+              &copy; {new Date().getFullYear()} GameVerse. All rights reserved.
+            </p>
+            <p className="text-xs text-[var(--color-muted-2)]">
+              Secure payments via QR &bull; Instant delivery via WhatsApp
+            </p>
+          </div>
         </div>
       </div>
     </footer>

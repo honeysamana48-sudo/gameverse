@@ -3,47 +3,58 @@
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { Game } from "@/types";
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { motion } from "framer-motion";
 
 export default function GameActions({ game }: { game: Game }) {
   const { addItem, isInCart } = useCart();
   const router = useRouter();
   const [added, setAdded] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const inCart = isInCart(game.id);
 
-  const handleAdd = () => {
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
+  const handleAdd = useCallback(() => {
     addItem(game);
     setAdded(true);
-    setTimeout(() => setAdded(false), 1200);
-  };
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setAdded(false), 1200);
+  }, [addItem, game]);
 
-  const handleBuyNow = () => {
+  const handleBuyNow = useCallback(() => {
     addItem(game);
     router.push("/cart");
-  };
+  }, [addItem, game, router]);
 
   return (
     <div className="mt-6 flex gap-4">
-
-      <button
+      <motion.button
         onClick={handleAdd}
-        className={`px-6 py-3 rounded-lg font-semibold transition ${
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        className={`clip-panel-sm px-6 py-3 font-heading text-sm font-bold transition-all duration-300 ${
           inCart
-            ? "bg-green-600"
-            : "bg-gray-800 hover:bg-gray-700"
+            ? "bg-[var(--color-mint)] text-[var(--color-void)]"
+            : "border border-[var(--color-border)] bg-[var(--color-surface-2)] text-[var(--color-ink)] hover:border-[var(--color-violet)]/50 hover:shadow-[0_0_12px_rgba(124,92,252,0.15)]"
         }`}
       >
         {added ? "Added ✓" : inCart ? "In Cart ✓" : "Add to Cart"}
-      </button>
+      </motion.button>
 
-      <button
+      <motion.button
         onClick={handleBuyNow}
-        className="bg-violet-600 px-6 py-3 rounded-lg font-semibold hover:bg-violet-700"
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        className="clip-panel-sm bg-[var(--color-violet)] px-6 py-3 font-heading text-sm font-bold text-white shadow-[var(--shadow-glow-violet)] transition-all duration-300 hover:shadow-[var(--shadow-glow-violet-lg)]"
       >
         Buy Now
-      </button>
-
+      </motion.button>
     </div>
   );
 }

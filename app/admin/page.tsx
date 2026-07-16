@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { Shield, Eye, EyeOff, Gamepad2, Lock, User, DollarSign, ShoppingCart, Clock, CheckCircle, Package, AlertTriangle, Users, TrendingUp } from "lucide-react";
 import { getDashboardStats } from "@/lib/adminAnalytics";
 import AdminLayout from "@/components/admin/AdminLayout";
+import { ToastProvider } from "@/components/admin/Toast";
+import AddGameForm from "@/components/admin/AddGameForm";
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -104,16 +106,21 @@ export default function AdminPage() {
 
   return (
     <AdminLayout>
-      <div className="space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-            <Gamepad2 className="w-8 h-8 text-cyan-400" />
-            Dashboard
-          </h1>
-          <p className="text-gray-400 mt-1">Welcome back, Admin. Here's your overview.</p>
+      <ToastProvider>
+        <div className="space-y-8">
+          <div>
+            <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+              <Gamepad2 className="w-8 h-8 text-cyan-400" />
+              Dashboard
+            </h1>
+            <p className="text-gray-400 mt-1">Welcome back, Admin. Here's your overview.</p>
+          </div>
+          <DashboardOverview />
+          <div className="max-w-2xl">
+            <AddGameForm onSuccess={() => window.location.reload()} />
+          </div>
         </div>
-        <DashboardOverview />
-      </div>
+      </ToastProvider>
     </AdminLayout>
   );
 }

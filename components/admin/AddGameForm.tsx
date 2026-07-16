@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { useToast } from "@/components/admin/Toast";
+import { Plus } from "lucide-react";
 
 export default function AddGameForm({ onSuccess }: { onSuccess: () => void }) {
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   const [game, setGame] = useState({
     name: "",
@@ -30,6 +33,12 @@ export default function AddGameForm({ onSuccess }: { onSuccess: () => void }) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (!game.name.trim()) {
+      toast("Game name is required", "error");
+      return;
+    }
+
     setLoading(true);
 
     const finalSlug = game.slug?.trim()
@@ -38,16 +47,16 @@ export default function AddGameForm({ onSuccess }: { onSuccess: () => void }) {
 
     const { error } = await supabase.from("games").insert([
       {
-        name: game.name,
+        name: game.name.trim(),
         slug: finalSlug,
         description: game.description,
         category: game.category,
         platform: game.platform,
         image: game.image,
-        price: Number(game.price),
-        original_price: Number(game.original_price),
-        discount_percent: Number(game.discount_percent),
-        rating: Number(game.rating),
+        price: Number(game.price) || 0,
+        original_price: Number(game.original_price) || 0,
+        discount_percent: Number(game.discount_percent) || 0,
+        rating: Number(game.rating) || 0,
         is_deal: game.is_deal,
         is_featured: game.is_featured,
       },
@@ -56,11 +65,11 @@ export default function AddGameForm({ onSuccess }: { onSuccess: () => void }) {
     setLoading(false);
 
     if (error) {
-      alert(error.message);
+      toast(error.message, "error");
       return;
     }
 
-    alert("Game Added Successfully!");
+    toast("Game added successfully!", "success");
     onSuccess();
 
     setGame({
@@ -70,42 +79,87 @@ export default function AddGameForm({ onSuccess }: { onSuccess: () => void }) {
     });
   }
 
-  const inputClass = "w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-void)] p-3 text-[var(--color-ink)] outline-none transition-all focus:border-[var(--color-violet)]/50 focus:shadow-[0_0_15px_rgba(124,92,252,0.1)]";
+  const inputClass = "w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white text-sm placeholder:text-gray-500 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
-      <h2 className="text-xl font-bold font-heading mb-4">Add New Game</h2>
-      <input placeholder="Game Name" value={game.name} onChange={(e) => setGame({ ...game, name: e.target.value })} className={inputClass} />
-      <input placeholder="Slug (optional)" value={game.slug} onChange={(e) => setGame({ ...game, slug: e.target.value })} className={inputClass} />
-      <textarea placeholder="Description" value={game.description} onChange={(e) => setGame({ ...game, description: e.target.value })} className={`${inputClass} min-h-[100px]`} />
-      <div className="grid grid-cols-2 gap-4">
-        <input placeholder="Category" value={game.category} onChange={(e) => setGame({ ...game, category: e.target.value })} className={inputClass} />
-        <input placeholder="Platform" value={game.platform} onChange={(e) => setGame({ ...game, platform: e.target.value })} className={inputClass} />
+    <form onSubmit={handleSubmit} className="space-y-5 rounded-2xl border border-white/10 bg-[#0d0d1a] p-6">
+      <div className="flex items-center gap-3 mb-2">
+        <div className="p-2 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600">
+          <Plus className="w-5 h-5 text-white" />
+        </div>
+        <div>
+          <h2 className="text-lg font-bold text-white">Add New Game</h2>
+          <p className="text-gray-500 text-xs">Fill in the details to add a new game to the store</p>
+        </div>
       </div>
-      <input placeholder="Image URL" value={game.image} onChange={(e) => setGame({ ...game, image: e.target.value })} className={inputClass} />
-      <div className="grid grid-cols-2 gap-4">
-        <input type="number" placeholder="Price" value={game.price} onChange={(e) => setGame({ ...game, price: e.target.value })} className={inputClass} />
-        <input type="number" placeholder="Original Price" value={game.original_price} onChange={(e) => setGame({ ...game, original_price: e.target.value })} className={inputClass} />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">Game Name *</label>
+          <input placeholder="e.g. GTA V" value={game.name} onChange={(e) => setGame({ ...game, name: e.target.value })} className={inputClass} />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">Slug (auto-generated if empty)</label>
+          <input placeholder="e.g. gta-v" value={game.slug} onChange={(e) => setGame({ ...game, slug: e.target.value })} className={inputClass} />
+        </div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <input type="number" placeholder="Discount %" value={game.discount_percent} onChange={(e) => setGame({ ...game, discount_percent: e.target.value })} className={inputClass} />
-        <input type="number" step="0.1" placeholder="Rating" value={game.rating} onChange={(e) => setGame({ ...game, rating: e.target.value })} className={inputClass} />
+
+      <div>
+        <label className="block text-sm text-gray-400 mb-1">Description</label>
+        <textarea placeholder="Game description..." value={game.description} onChange={(e) => setGame({ ...game, description: e.target.value })} className={`${inputClass} min-h-[80px] resize-y`} />
       </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">Category</label>
+          <input placeholder="e.g. Action, RPG" value={game.category} onChange={(e) => setGame({ ...game, category: e.target.value })} className={inputClass} />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">Platform</label>
+          <input placeholder="e.g. PC, PlayStation" value={game.platform} onChange={(e) => setGame({ ...game, platform: e.target.value })} className={inputClass} />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm text-gray-400 mb-1">Image URL</label>
+        <input placeholder="https://..." value={game.image} onChange={(e) => setGame({ ...game, image: e.target.value })} className={inputClass} />
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">Price</label>
+          <input type="number" placeholder="0" value={game.price} onChange={(e) => setGame({ ...game, price: e.target.value })} className={inputClass} />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">Original Price</label>
+          <input type="number" placeholder="0" value={game.original_price} onChange={(e) => setGame({ ...game, original_price: e.target.value })} className={inputClass} />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">Discount %</label>
+          <input type="number" placeholder="0" value={game.discount_percent} onChange={(e) => setGame({ ...game, discount_percent: e.target.value })} className={inputClass} />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">Rating (0-5)</label>
+          <input type="number" step="0.1" min="0" max="5" placeholder="0" value={game.rating} onChange={(e) => setGame({ ...game, rating: e.target.value })} className={inputClass} />
+        </div>
+      </div>
+
       <div className="flex gap-6">
-        <label className="flex items-center gap-2 text-sm text-[var(--color-muted)] cursor-pointer">
-          <input type="checkbox" checked={game.is_featured} onChange={(e) => setGame({ ...game, is_featured: e.target.checked })} className="accent-[var(--color-violet)]" />
+        <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+          <input type="checkbox" checked={game.is_featured} onChange={(e) => setGame({ ...game, is_featured: e.target.checked })} className="w-4 h-4 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/25" />
           Featured
         </label>
-        <label className="flex items-center gap-2 text-sm text-[var(--color-muted)] cursor-pointer">
-          <input type="checkbox" checked={game.is_deal} onChange={(e) => setGame({ ...game, is_deal: e.target.checked })} className="accent-[var(--color-violet)]" />
+        <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+          <input type="checkbox" checked={game.is_deal} onChange={(e) => setGame({ ...game, is_deal: e.target.checked })} className="w-4 h-4 rounded border-white/20 bg-white/5 text-cyan-500 focus:ring-cyan-500/25" />
           Deal
         </label>
       </div>
+
       <button
         disabled={loading}
-        className="w-full clip-panel-sm bg-[var(--color-violet)] py-3 font-heading font-bold text-white shadow-[var(--shadow-glow-violet)] transition-all hover:shadow-[var(--shadow-glow-violet-lg)] disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? "Adding..." : "Add Game"}
+        {loading ? "Adding Game..." : "Add Game"}
       </button>
     </form>
   );
